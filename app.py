@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import uvicorn
+import argparse
 
 # Function to upload file and call FastAPI endpoint
 def predict_by_file(file):
@@ -28,5 +30,10 @@ def main():
             except Exception as e:
                 st.error(f'Error: {e}')
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Streamlit app')
+    parser.add_argument('--api_port', type=str, default='', help='Parameter for the model')
+    args = parser.parse_args()
     main()
+    uvicorn.run("main:app", host="127.0.0.1", port=args.api_port)
